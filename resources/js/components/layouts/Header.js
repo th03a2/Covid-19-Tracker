@@ -24,7 +24,7 @@ export default class Header extends Component{
                                 <Link className="nav-link" to="/home">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/patients">Patients</Link>
+                                <Link className="nav-link" to="/roles">Test</Link>
                             </li>
                             <li className="nav-item dropdown">
                                 <Link className="nav-link " to="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,7 +33,7 @@ export default class Header extends Component{
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <Link className="dropdown-item" to="/patients">Patients</Link>
                                 <Link className="dropdown-item" to="/employees">Employee</Link>
-                                <Link className="dropdown-item" to="/home">Roles</Link>
+                                <Link className="dropdown-item" to="/roles">Roles</Link>
                                 <div className="dropdown-divider"></div>
                                 <Link className="dropdown-item" to="#">Something else here</Link>
                                 </div>
@@ -54,7 +54,7 @@ export default class Header extends Component{
                 </nav>
                 <Route exact path='/patients' component={Patients} />
                 <Route exact path='/employees' component={Employees} />
-                <Route exact path='/home' component={Roles} />
+                <Route exact path='/roles' component={Roles} />
                 </div>
            </Router>
         );

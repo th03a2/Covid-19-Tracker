@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import List from './List';
 import Create from './Create';
-import Update from './Update';
+import Edit from './Edit';
 
 
 export default class Index extends Component{
@@ -11,9 +11,9 @@ export default class Index extends Component{
            <div>
                <Router>
                     <div>                      
-                        <Route exact path='/home' component={List} />
+                        <Route exact path='/roles' component={List} />
                         <Route exact path='/roles/create' component={Create} />
-                        <Route exact path='/roles/:id/find' component={Update} />
+                        <Route exact path='/roles/:id/edit' component={Edit} />
                     </div>
                </Router>
            </div>

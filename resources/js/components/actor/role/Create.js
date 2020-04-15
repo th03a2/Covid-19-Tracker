@@ -1,89 +1,72 @@
-import React, {Component} from 'react';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'  
+import axios from 'axios';  
+import { Button, Card, CardBody, CardFooter, Col, Container, Form, Label, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';  
 
-export default class Create extends Component{
-    constructor()
-    {
-        super();
-        this.onSubmit=this.onSubmit.bind(this);
-        this.state={
-            name:'',
-            display_name:'',
-            category:'',
-            hrsduty:0,
-            dayduty:0,
-            basicpay:0,
-            dailypay:1,
-            sss:0,
-            PHi:0,
-            COLA:0,
-            is_active:true,
-            engrave:true
-        }
-    }
+function Create(props) {  
+  const [role, setModel] = useState({ 
+            name: '', 
+            display_name: '', 
+            category: '', 
+            basicpay: 0, 
+            SSS: 0, 
+            PHi: 0 }); 
+  const [showLoading, setShowLoading] = useState(false);  
 
-    changeHandler(e){
-        console.log(response)
-        this.setState({[e.target.name]:e.target.value})   }
+  const insert = (e) => {  
+    e.preventDefault();  
+    debugger;   
+    axios.post(`./api/roles/save`, role)  
+      .then(() => {  props.history.push('/roles') });  
+  };  
+  const onChange = (e) => { e.persist(); debugger; setModel({...role, [e.target.name]: e.target.value}); }  
+  return (  
+        <div className="app flex-row align-items-center">  
+          <Container>  
+            <Row className="justify-content-center">  
+              <Col md="12" lg="10" xl="8">  
+                <Card className="mx-4">  
+                  <CardBody className="p-4">  
+                    <Form onSubmit={insert}>  
+                      <h1>Register</h1>  
+                      <InputGroup className="mb-3">  
+                        <Input type="text" name="name" id="name" placeholder="Name" value={role.name} onChange={ onChange }  />  
+                      </InputGroup>  
+                       <InputGroup className="mb-3">  
+                        <Input type="text" placeholder="Display name" name="display_name" id="display_name" value={role.display_name} onChange={ onChange }/>  
+                      </InputGroup>  
+                      <InputGroup className="mb-3">  
+                        <Input type="text" placeholder="Category" name="category" id="category"  value={role.category} onChange={ onChange }  />  
+                      </InputGroup> 
+                      <InputGroup className="mb-4"> 
+                      <Label>Basic Pay :</Label>  
+                    <Input type="number" placeholder="basicpay" name="basicpay" id="basicpay" value={role.basicpay} onChange={ onChange }  />  
+                  </InputGroup>  
+                  <InputGroup className="mb-4">  
+                  <Label>SSS :</Label>
+                    <Input type="number" placeholder="SSS" name="SSS" id="SSS" value={role.SSS} onChange={ onChange } />  
+                  </InputGroup>  
+                  <InputGroup className="mb-4">  
+                  <Label>Phil. Health :</Label>  
+                     <Input type="number" placeholder="PHi" name="PHi" id= "PHi" value={role.PHi} onChange={ onChange } />  
+                  </InputGroup>   
+             <CardFooter className="p-4">  
+                <Row>  
+                  <Col xs="12" sm="6">  
+                    <Button type="submit" className="btn btn-info mb-1" block><span>Save</span></Button>  
+                  </Col>  
+                  <Col xs="12" sm="6">  
+                    <Button className="btn btn-info mb-1" block><span>Cancel</span></Button>  
+                  </Col>  
+                  </Row>  
+              </CardFooter>  
+                </Form>  
+              </CardBody>  
+            </Card>  
+          </Col>  
+        </Row>  
+      </Container>  
+    </div>  
+  )  
+}  
 
-    onSubmit(e)
-    {
-        e.preventDefault();
- 
-        let urlString = localStorage.getItem("url");
-        var headers = {
-            'Content-Type': 'application/json;charset=UTF-8',
-            "Access-Control-Allow-Origin": urlString,
-            "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-        }
-       
-        axios.post(urlString+'/api/role/save', this.state, headers)
-        .then(res=>console.log(res.data))
-        .catch(function (response) {
-            //handle error
-            console.log(response)
-        });
-    }
-    render (){ 
-        const {name, display_name } = this.state
-        return(
-            <div className="row justify-content-center">
-            <div className="col-md-8">
-                <div className="card">
-                    <div className="card-header">
-                        <Link to="/roles" type="button" className="btn btn-outline-primary" style={{position:"absolute"}}><span className="fa fa-angle-double-left" /></Link>
-                        <h2 className="text-center">Role</h2>
-                    </div>
-
-                    <div className="card-body">
-                        <form onSubmit={this.onSubmit}>
-                            <div className="form-group">
-                                <label >Name</label>
-                                <input type="text" 
-                                        className="form-control" 
-                                        name="name"
-                                        value={name}
-                                        onChange={this.changeHandler}
-                                        aria-describedby="emailHelp" 
-                                        placeholder="Enter name" />
-                            </div>
-                            <div className="form-group">
-                                <label>Display name</label>
-                                <input type="text" 
-                                        className="form-control" 
-                                        name="display_name" 
-                                        value={display_name}
-                                        onChange={this.changeHandler}
-                                        placeholder="Display name" />
-                            </div>
-                            <button type="submit" className="btn btn-outline-primary form-control" >Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        );
-    };
-}
+export default Create

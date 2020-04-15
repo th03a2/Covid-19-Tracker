@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';  
 import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, Row } from 'reactstrap';  
 function Createemployee(props) {  
-  const [employee, setemployee] = useState({ Name: '', Department: '', Age: '', City: '', Country: '', Gender: '' });  
+  const [employee, setemployee] = useState({ 
+                  Name: '', 
+                  Department: '', 
+                  Age: '', 
+                  City: '', 
+                  Country: '', 
+                  Gender: '' });  
   const [showLoading, setShowLoading] = useState(false);  
   const apiUrl = "http://localhost:8000/api/employee/1/find";  
   

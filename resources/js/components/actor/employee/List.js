@@ -24,7 +24,7 @@ function List(props) {
     
   const edit = (id) => {  
     props.history.push({  
-          pathname: '/patients/' + id +'/find' 
+          pathname: '/employees/' + id +'/find' 
         });  
     };  
 
@@ -34,7 +34,7 @@ function List(props) {
             <div className="col-md-10">
                 <div className="card">
                     <div className="card-header">
-                    <Link to="/patients/create">Create</Link>
+                    <Link to="/employees/create">Create</Link>
                     <h2 className="text-center">Employee List</h2>
                     </div> 
             <div className="card-body">
@@ -51,7 +51,7 @@ function List(props) {
                 <tbody>  
                   {  
                     patients.map((patient, idx) => {  
-                      return <tr key={patient.id} id={"patient-" + role.id}>  
+                      return <tr key={patient.id} id="patient-{role.id}">  
                         <td>{++idx}</td>
                         <td>{patient.fullname}</td>  
                         <td>{patient.dob}</td>  

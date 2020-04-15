@@ -10,9 +10,9 @@ export default class Index extends Component {
            <div>
                <Router>
                     <div>                      
-                        <Route exact path='/patient' component={Patients} />
-                        <Route exact path='/patient/create' component={Create} /> 
-                        <Route exact path='/patient/:patient/update' component={Update} />  
+                        <Route exact path='/patients' component={Patients} />
+                        <Route exact path='/patients/create' component={Create} /> 
+                        <Route exact path='/patients/:patient/find' component={Update} />  
                     </div>
                </Router>
            </div>

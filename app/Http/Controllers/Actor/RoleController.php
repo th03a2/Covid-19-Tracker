@@ -11,14 +11,14 @@ use App\Http\Controllers\Controller;
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * Display a listing of the resource. 
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        $roles=Role::Where('id', '!=', 1)->get();
+    public function index(Request $request){
+        $roles=Role::Where('id', '!=', 1)
+                     ->where('name', 'LIKE',"%$request->key%")
+                     ->get();
         return response()->json($roles);
-        return view('Actors.Roles.index', compact('roles'));
     }
 
     /**
@@ -27,11 +27,9 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){ 
+    public function save(Request $request){ 
         $role=Role::create ($request->all());
         return response()->json(array('role'=>$role, 'success' => 'You Have Updated the Roles'), 200);
-        return redirect('/roles')
-        ->with('success', 'You Have Updated the Roles');
     }
 
     /**
@@ -65,11 +63,8 @@ class RoleController extends Controller
      * @param  \App\Models\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id){
-        Role::destroy($id);
-        return response()->json(array('success' => 'You have Succesfully deleted your roles..'), 200);
-
-        return redirect('/roles')
-        ->with('success','You have Succesfully deleted your roles..');
+    public function destroy(Role $role){
+        $role->update(['deleted_at'=> now()]);
+        return response()->json(array('success' => 'You have Succesfully deleted your roles..'), 204);
     }
 }

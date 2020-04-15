@@ -1,94 +1,84 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect} from 'react';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import axios from 'axios';
 
+function List(props) {  
+  const [searchKey, setSearchKey] = useState('');
+  const [roles, setData] = useState([]);  // Mapping
+  useEffect(() => { 
+    window.addEventListener('#key',getData())
+    // getData(); 
+  
+  }, []); 
 
+  const getData = async () => { const result = await axios('./api/roles',{key:searchKey}); setData(result.data); }; 
+  const handleChange = e => { setSearchKey(e.target.value); console.log(searchKey); getData();};
+  const edit = (id) => { props.history.push({  pathname: `./roles/${id}/edit`}); };
+  const destroy = (id) => {  
+    debugger;  
+    axios.delete(`./api/roles/${id}/destroy`)  
+         .then((result) => { props.history.push('/roles') });  
+  };  
 
-export default class List extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            query: '',
-            roles: [],
-            urlString: localStorage.getItem("url"),
-            loading: false,
-            show: false,
-            message: ''
-        }
-    }
-
-    handleOnInputChange (e){
-
-    }
-
-    componentDidMount()
-    {
-        // console.log(this.props);
-        axios.get(this.state.urlString+'/api/role', key)
-        .then(response=>{
-            this.setState({roles:response.data}); 
-        });
-    }
-
-    onDelete(pkey)
-    {
-        axios.delete(this.state.urlString+'/api/role/'+pkey+'/destroy')
-        .then(response=>{
-            // let roles = this.state.roles;
-            this.setState({show:false});
-            let id = "role"+pkey;
-            $('#'+id).remove();
-        });
-    };
-
-    render (){ 
-        return(
-            <div className="row justify-content-center">
-                
-                
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">
-                            <Link to="/roles/create" style={{position:"absolute"}} className="btn btn-outline-primary"><span className="fa fa-plus"></span></Link>
-                            <h2 className="text-center">Role</h2>
-                        </div>
-
-                        <div className="card-body">
-                                <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Display Name</th>
-                                        <th>Action</th>
-                                    </tr>  
-                                </thead>  
-                                <tbody>
-                                {
-                                    this.state.roles.map((role, i)=>{
-                                        return (
-                                            <tr key={role.id} id={"role-" + role.id}>
-                                                <td>{++i}</td>
-                                                <td>{role.name}</td>
-                                                <td>{role.display_name}</td>
-                                                <td >
-                                                <div className="btn-group">
-                                                    <Link to={"/roles/"+role.id+"/find"} className="btn btn-info"><span className="fa fa-pencil-alt"></span></Link>
-                                                    <button className="btn btn-danger" onClick={() => this.setState({ show: true })} type="submit"><span className="fa fa-trash"></span></button>
-                            
-                                                </div>
-                                            </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+  return (  
+    <div className="animated fadeIn">  
+     <div className="row justify-content-center">
+        <div className="col-md-10">
+            <div className="card">
+              <div className="card-header">
+                <Link to="/roles/create">Create</Link>
+                <h2 className="text-center">Position List</h2>
+                <form className="form-inline my-2 my-lg-0">
+                    <input 
+                      className="form-control mr-sm-2" 
+                      id="key" 
+                      type="search" 
+                      placeholder="Search" 
+                      value={searchKey}
+                      onChange={handleChange}
+                      aria-label="Search" />
+                    <button className="btn btn-outline-success my-2 my-sm-0" id="look" type="submit">Search</button>
+                </form>
+              </div> 
+              <div className="card-body">
+                <table className="table"> 
+                  <thead>  
+                    <tr>  
+                      <th>#</th>
+                      <th>Name</th>  
+                      <th>Display Name</th>   
+                      <th>Category</th>  
+                      <th>Action</th>  
+                    </tr>  
+                  </thead>  
+                  <tbody>  
+                    {  
+                      roles.map((role, i) => {  
+                        return <tr key={role.id} id={`role-${role.id}`}>  
+                          <td>{++i}</td>
+                          <td>{role.name}</td>  
+                          <td>{role.display_name}</td>  
+                          <td>{role.category}</td>   
+                          <td>  
+                            <div className="btn-group">  
+                              <button className="btn btn-outline-info" onClick={() => { edit(role.id) }}><span className="fa fa-pencil"></span></button>  
+                              <button className="btn btn-outline-danger" onClick={() => { destroy(role.id) }}><span className="fa fa-trash"></span></button>  
+                            </div>  
+                          </td>  
+                        </tr>  
+                      })
+                    }  
+                  </tbody>
+                </table>
+              </div>
             </div>
-        );
-        
-    };
+        </div>
+      </div> 
+    </div>  
+  )  
 }
+
+export default List 
+
+// https://dzone.com/articles/crud-operations-using-reactjs-hooks-and-web-api
+// https://codesandbox.io/s/practical-nightingale-m2b5n?file=/src/index.js:507-523

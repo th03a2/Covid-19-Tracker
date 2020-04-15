@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import axios from 'axios';
 
 function List(props) {  
-  const [employees, setData] = useState([]);  
+  const [patients, setData] = useState([]);  
     
   useEffect(() => {  
     const GetData = async () => {  
@@ -25,7 +25,7 @@ function List(props) {
     
   const edit = (id) => {  
     props.history.push({  
-          pathname: '/employees/' + id +'/find' 
+          pathname: '/patients/' + id +'/find' 
         });  
     };  
 
@@ -35,7 +35,7 @@ function List(props) {
             <div className="col-md-10">
                 <div className="card">
                     <div className="card-header">
-                    <Link to="/employees/create">Create</Link>
+                    <Link to="/patients/create">Create</Link>
                     <h2 className="text-center">Patient List</h2>
                     </div> 
             <div className="card-body">
@@ -51,7 +51,7 @@ function List(props) {
                 </thead>  
                 <tbody>  
                   {  
-                    employees.map((patient, idx) => {  
+                    patients.map((patient, idx) => {  
                       return <tr key={patient.id}>  
                         <td>{++idx}</td>
                         <td>{patient.fullname}</td>  

@@ -32,8 +32,8 @@ class CreateRolesTable extends Migration
             $table->decimal('SSS', 8, 2)->unsigned()->default(0)->nullable();
             $table->decimal('PHi', 8, 2)->unsigned()->default(0)->nullable();
             $table->decimal('COLA', 8, 2)->unsigned()->default(0)->nullable();
-            $table->boolean('is_active')->default(1);;
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
